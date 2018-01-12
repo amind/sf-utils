@@ -3,6 +3,8 @@ package amind.sf.utils;
 import com.sforce.soap.metadata.MetadataConnection;
 import amind.sf.utils.export.CreateManifestService;
 import amind.sf.utils.export.MetadataLoginUtil;
+import amind.sf.utils.export.RetrieveSample;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Calendar;
@@ -12,11 +14,14 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 
 public class FXMLController implements Initializable {
     
@@ -38,33 +43,36 @@ public class FXMLController implements Initializable {
     @FXML
     private TextField sfSecurityTokenTextFieldControl;
     
+    @FXML
+    private TextField packageFilePathTextFieldControl;
+    
     private final String redStyle = "-fx-highlight-fill: #ff0000; -fx-highlight-text-fill: #000000; -fx-text-fill: #ff0000; ";
     private final String greenStyle = "-fx-highlight-fill: #00ff00; -fx-highlight-text-fill: #000000; -fx-text-fill: #00ff00; ";
+    
+    private void checkLoginFields(){
+        if(sfUsernameTextFieldControl.getText().trim().equalsIgnoreCase("")){
+            throw new RuntimeException("Please enter SF username.");
+        }
+
+        if(sfPasswordPasswordFieldControl.getText().trim().equalsIgnoreCase("")){
+            throw new RuntimeException("Please enter SF password.");
+        }
+
+        if(sfSecurityTokenTextFieldControl.getText().trim().equalsIgnoreCase("")){
+            throw new RuntimeException("Please enter SF security token.");
+        }
+    }
     
     @FXML
     private void exportManifestAction(ActionEvent event) {
         
         try {
             
-            statusTextAreaControl.setText("In Progress...");
+            this.checkLoginFields();
             
-            if(sfUsernameTextFieldControl.getText().trim().equalsIgnoreCase("")){
-                throw new RuntimeException("Please enter SF username.");
-            }
-            
-            if(sfPasswordPasswordFieldControl.getText().trim().equalsIgnoreCase("")){
-                throw new RuntimeException("Please enter SF password.");
-            }
-            
-            if(sfSecurityTokenTextFieldControl.getText().trim().equalsIgnoreCase("")){
-                throw new RuntimeException("Please enter SF security token.");
-            }
-            
-            if(fromDatePickerControl.getValue()==null){
+            if(fromDatePickerControl.getValue()==null || tillDatePickerControl.getValue()==null){
                 throw new RuntimeException("Please enter export dates.");
             }
-            
-            
             
             Calendar periodStart = Calendar.getInstance();
             periodStart.set(fromDatePickerControl.getValue().getYear(), fromDatePickerControl.getValue().getMonthValue()-1, fromDatePickerControl.getValue().getDayOfMonth());
@@ -72,7 +80,10 @@ public class FXMLController implements Initializable {
             Calendar periodEnd = Calendar.getInstance();
             periodEnd.set(tillDatePickerControl.getValue().getYear(), tillDatePickerControl.getValue().getMonthValue()-1, tillDatePickerControl.getValue().getDayOfMonth());
             
-            MetadataConnection metadataConnection = MetadataLoginUtil.login(sfUsernameTextFieldControl.getText(), sfPasswordPasswordFieldControl.getText()+sfSecurityTokenTextFieldControl.getText());
+            MetadataConnection metadataConnection = MetadataLoginUtil.login(
+                                                                        sfUsernameTextFieldControl.getText(), 
+                                                                        sfPasswordPasswordFieldControl.getText()+sfSecurityTokenTextFieldControl.getText()
+                                                                    );
             CreateManifestService createManifestService = new CreateManifestService(metadataConnection, periodStart, periodEnd);
             createManifestService.getlastModifiedComponents();
             
@@ -80,6 +91,63 @@ public class FXMLController implements Initializable {
             statusTextAreaControl.setStyle(greenStyle);
             
         } catch (Exception ex) {
+            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            statusTextAreaControl.setText("Error occured: "+(ex==null?" undefined error.": ex.getMessage()));
+            statusTextAreaControl.setStyle(redStyle);
+        }
+        
+        
+    }
+    
+    @FXML
+    private void chooseExportPackageXML(ActionEvent event){
+        
+        try{
+            
+            Node source = (Node) event.getSource();
+            Window theStage = source.getScene().getWindow();
+            
+            FileChooser fileChooser = new FileChooser();
+            File selectedDirectory = 
+                    fileChooser.showOpenDialog(theStage);
+
+            if(selectedDirectory == null){
+                packageFilePathTextFieldControl.setText("");
+                throw new RuntimeException("No file was selected.");
+            }else{
+                packageFilePathTextFieldControl.setText(selectedDirectory.getAbsolutePath());
+            }
+        }catch(Exception ex){
+            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            statusTextAreaControl.setText("Error occured: "+(ex==null?" undefined error.": ex.getMessage()));
+            statusTextAreaControl.setStyle(redStyle);
+        }
+        
+    }
+    
+    @FXML
+    private void exportSFObjectsByPackageXML(ActionEvent event){
+        
+        try{
+            
+            this.checkLoginFields();
+            
+            if(packageFilePathTextFieldControl.getText().trim().equalsIgnoreCase("")){
+                throw new RuntimeException("Package.xml file is not choosed.");
+            }
+            
+            MetadataConnection metadataConnection = MetadataLoginUtil.login(
+                                                                        sfUsernameTextFieldControl.getText(), 
+                                                                        sfPasswordPasswordFieldControl.getText()+sfSecurityTokenTextFieldControl.getText()
+                                                                    );
+            
+            RetrieveSample sample = new RetrieveSample(
+                                            metadataConnection,
+                                            packageFilePathTextFieldControl.getText()
+                                        );
+            sample.retrieveZip();
+            
+        }catch(Exception ex){
             Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
             statusTextAreaControl.setText("Error occured: "+(ex==null?" undefined error.": ex.getMessage()));
             statusTextAreaControl.setStyle(redStyle);

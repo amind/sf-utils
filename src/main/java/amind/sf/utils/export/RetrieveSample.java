@@ -16,14 +16,11 @@ import org.xml.sax.SAXException;
 
 import com.sforce.soap.metadata.AsyncResult;
 import com.sforce.soap.metadata.MetadataConnection;
-import com.sforce.soap.enterprise.EnterpriseConnection;
 import com.sforce.soap.metadata.RetrieveMessage;
 import com.sforce.soap.metadata.RetrieveRequest;
 import com.sforce.soap.metadata.RetrieveResult;
 import com.sforce.soap.metadata.RetrieveStatus;
-import com.sforce.soap.enterprise.LoginResult;
 import com.sforce.ws.ConnectionException;
-import com.sforce.ws.ConnectorConfig;
 import com.sforce.soap.metadata.PackageTypeMembers;
 
 public class RetrieveSample {
@@ -40,29 +37,18 @@ public class RetrieveSample {
 
     // manifest file that controls which components get retrieved
     //private static final String MANIFEST_FILE = "/home/yuri/Documents/Projects/MetaData_repo/metadata/src/package/package.xml";
-    private static final String MANIFEST_FILE = "/home/acdc/IntellijProjects/sf-export/metadata/package.xml";
+    private String manifestFile;
 
     private static final double API_VERSION = 41.0;
 
-    public static void main___(String[] args) throws Exception {
-        final String USERNAME = "yury.iagutyan@amindsolutions.com";
-        //final String USERNAME = "yury.iagutyan@amindsolutions.com.hbt.int";
-        final String PASSWORD = "F@89f51988tdDbA8ZCFevB63vSla9FwiUwG";
-        //final String PASSWORD = "fa89f51988fqFSqEoiZzVr5caLYgfkXfYj";
-        final String URL = "https://test.salesforce.com/services/Soap/c/41.0";
-
-
-        RetrieveSample sample = new RetrieveSample(USERNAME, PASSWORD, URL);
-        sample.retrieveZip();
-    }
-
-    public RetrieveSample(String username, String password, String loginUrl)
+    public RetrieveSample(MetadataConnection metadataConnection, String manifestFile)
             throws ConnectionException {
-        createMetadataConnection(username, password, loginUrl);
+        this.metadataConnection = metadataConnection;
+        this.manifestFile = manifestFile;
     }
 
 
-    private void retrieveZip() throws RemoteException, Exception
+    public void retrieveZip() throws RemoteException, Exception
     {
         RetrieveRequest retrieveRequest = new RetrieveRequest();
         // The version in package.xml overrides the version in RetrieveRequest
@@ -109,7 +95,12 @@ public class RetrieveSample {
             // Write the zip to the file system
             System.out.println("Writing results to zip file");
             ByteArrayInputStream bais = new ByteArrayInputStream(result.getZipFile());
-            File resultsFile = new File("retrieveResults.zip");
+            
+            String path = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+            File f = new File(path);
+            String directory = f.getParent(); 
+        
+            File resultsFile = new File(directory+"/exported_objects.zip");
             FileOutputStream os = new FileOutputStream(resultsFile);
             try {
                 ReadableByteChannel src = Channels.newChannel(bais);
@@ -144,7 +135,7 @@ public class RetrieveSample {
     private void setUnpackaged(RetrieveRequest request) throws Exception
     {
         // Edit the path, if necessary, if your package.xml file is located elsewhere
-        File unpackedManifest = new File(MANIFEST_FILE);
+        File unpackedManifest = new File(manifestFile);
         System.out.println("Manifest file: " + unpackedManifest.getAbsolutePath());
 
         if (!unpackedManifest.exists() || !unpackedManifest.isFile())
@@ -162,7 +153,7 @@ public class RetrieveSample {
     private com.sforce.soap.metadata.Package parsePackage(File file) throws Exception {
         try {
             InputStream is = new FileInputStream(file);
-            List<PackageTypeMembers> pd = new ArrayList<PackageTypeMembers>();
+            List<PackageTypeMembers> pd = new ArrayList<>();
             DocumentBuilder db =
                     DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Element d = db.parse(is).getDocumentElement();
@@ -202,22 +193,7 @@ public class RetrieveSample {
     }
 
 
-    private void createMetadataConnection(final String username,
-                                          final String password, final String loginUrl)
-            throws ConnectionException {
-
-        final ConnectorConfig loginConfig = new ConnectorConfig();
-        loginConfig.setAuthEndpoint(loginUrl);
-        loginConfig.setServiceEndpoint(loginUrl);
-        loginConfig.setManualLogin(true);
-        LoginResult loginResult = (new EnterpriseConnection(loginConfig)).login(
-                username, password);
-
-        final ConnectorConfig metadataConfig = new ConnectorConfig();
-        metadataConfig.setServiceEndpoint(loginResult.getMetadataServerUrl());
-        metadataConfig.setSessionId(loginResult.getSessionId());
-        this.metadataConnection = new MetadataConnection(metadataConfig);
-    }
+    
 
     //The sample client application retrieves the user's login credentials.
     // Helper function for retrieving user input from the console
