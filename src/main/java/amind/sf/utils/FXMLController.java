@@ -35,6 +35,9 @@ public class FXMLController implements Initializable {
     @FXML
     private PasswordField sfPasswordPasswordFieldControl;
     
+    @FXML
+    private TextField sfSecurityTokenTextFieldControl;
+    
     private final String redStyle = "-fx-highlight-fill: #ff0000; -fx-highlight-text-fill: #000000; -fx-text-fill: #ff0000; ";
     private final String greenStyle = "-fx-highlight-fill: #00ff00; -fx-highlight-text-fill: #000000; -fx-text-fill: #00ff00; ";
     
@@ -53,6 +56,10 @@ public class FXMLController implements Initializable {
                 throw new RuntimeException("Please enter SF password.");
             }
             
+            if(sfSecurityTokenTextFieldControl.getText().trim().equalsIgnoreCase("")){
+                throw new RuntimeException("Please enter SF security token.");
+            }
+            
             if(fromDatePickerControl.getValue()==null){
                 throw new RuntimeException("Please enter export dates.");
             }
@@ -65,7 +72,7 @@ public class FXMLController implements Initializable {
             Calendar periodEnd = Calendar.getInstance();
             periodEnd.set(tillDatePickerControl.getValue().getYear(), tillDatePickerControl.getValue().getMonthValue()-1, tillDatePickerControl.getValue().getDayOfMonth());
             
-            MetadataConnection metadataConnection = MetadataLoginUtil.login(sfUsernameTextFieldControl.getText(), sfPasswordPasswordFieldControl.getText());
+            MetadataConnection metadataConnection = MetadataLoginUtil.login(sfUsernameTextFieldControl.getText(), sfPasswordPasswordFieldControl.getText()+sfSecurityTokenTextFieldControl.getText());
             CreateManifestService createManifestService = new CreateManifestService(metadataConnection, periodStart, periodEnd);
             createManifestService.getlastModifiedComponents();
             

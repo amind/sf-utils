@@ -16,6 +16,7 @@ public class ManifestApp {
         
         final String username = "yury.iagutyan@amindsolutions.com";
         final String password = "F@89f51988tdDbA8ZCFevB63vSla9FwiUwG";
+        final String password1 = "mariko98910NdPumPeRinbgUHltCaJnYcOv";
         
         MetadataConnection metadataConnection = MetadataLoginUtil.login(username, password);
         
