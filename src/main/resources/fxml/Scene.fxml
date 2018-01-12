@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="440.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="amind.sf.utils.FXMLController">
+    <children>
+        <Button fx:id="button" layoutX="622.0" layoutY="220.0" onAction="#exportManifestAction" text="Export" />
+        <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
+      <DatePicker fx:id="fromDatePickerControl" layoutX="110.0" layoutY="141.0" promptText="From Date..." />
+      <Label layoutX="28.0" layoutY="146.0" text="From Date:" />
+      <Label layoutX="42.0" layoutY="256.0" text="Status:" />
+      <TextArea fx:id="statusTextAreaControl" layoutX="42.0" layoutY="280.0" prefHeight="140.0" prefWidth="642.0" />
+      <Label layoutX="42.0" layoutY="179.0" text="Till Date:" />
+      <DatePicker fx:id="tillDatePickerControl" layoutX="110.0" layoutY="174.0" promptText="Till Date..." />
+      <TextField fx:id="sfUsernameTextFieldControl" layoutX="110.0" layoutY="27.0" prefHeight="26.0" prefWidth="198.0" promptText="SF Username..." />
+      <PasswordField fx:id="sfPasswordPasswordFieldControl" layoutX="110.0" layoutY="63.0" prefHeight="26.0" prefWidth="198.0" promptText="SF Password..." />
+      <Label layoutX="10.0" layoutY="32.0" prefHeight="16.0" prefWidth="91.0" text="SF Username:" />
+      <Label layoutX="13.0" layoutY="68.0" text="SF Password:" />
+      <Label layoutX="143.0" layoutY="112.0" text="Export Manifest:" textFill="#0e00ff" />
+      <TextField layoutX="111.0" layoutY="207.0" prefHeight="26.0" prefWidth="198.0" />
+    </children>
+</AnchorPane>
