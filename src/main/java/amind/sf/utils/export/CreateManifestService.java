@@ -63,14 +63,16 @@ public class CreateManifestService {
             mapOfComponent.put(entry.getKey(), components);
         }
 
-
-        PrintWriter pw = new PrintWriter(new File("deploymentmanifest.csv"));
-        StringBuilder sb = new StringBuilder();
-
-        createCSVData(mapOfComponent, sb);
-        pw.write(sb.toString());
-        System.out.println(sb.toString());
-        pw.close();
+        String path = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+        File f = new File(path);
+        String directory = f.getParent();            
+        
+        try (PrintWriter pw = new PrintWriter(new File(directory+"/deploymentmanifest.csv"))) {
+            StringBuilder sb = new StringBuilder();
+            
+            createCSVData(mapOfComponent, sb);
+            pw.write(sb.toString());
+        }
     }
 
     private Map<String, List<FileProperties>> getLastModifiedData() {

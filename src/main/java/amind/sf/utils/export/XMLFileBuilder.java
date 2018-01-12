@@ -49,7 +49,12 @@ public class XMLFileBuilder {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("package.xml"));
+            
+            String path = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+            File f = new File(path);
+            String directory = f.getParent();   
+            
+            StreamResult result = new StreamResult(new File(directory+"/package.xml"));
 
             // Output to console for testing
             // StreamResult result = new StreamResult(System.out);
