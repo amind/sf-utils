@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: it.dontesta.labs.liferay.salesforce.client.soap:salesforce-client-soap:1.0.2">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/it/dontesta/labs/liferay/salesforce/client/soap/salesforce-client-soap/1.0.2/salesforce-client-soap-1.0.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/it/dontesta/labs/liferay/salesforce/client/soap/salesforce-client-soap/1.0.2/salesforce-client-soap-1.0.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/it/dontesta/labs/liferay/salesforce/client/soap/salesforce-client-soap/1.0.2/salesforce-client-soap-1.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
