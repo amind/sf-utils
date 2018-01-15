@@ -11,12 +11,8 @@ public class ManifestApp {
 
     public static void main__(String[] args) throws FileNotFoundException, ConnectionException {
         
-        //final String USERNAME = "yury.iagutyan@amindsolutions.com.hbt.int";
-        //final String PASSWORD = "fa89f51988fqFSqEoiZzVr5caLYgfkXfYj";
-        
-        final String username = "yury.iagutyan@amindsolutions.com";
-        final String password = "F@89f51988tdDbA8ZCFevB63vSla9FwiUwG";
-        final String password1 = "mariko98910NdPumPeRinbgUHltCaJnYcOv";
+        final String username = "username";
+        final String password = "password";
         
         MetadataConnection metadataConnection = MetadataLoginUtil.login(username, password);
         
@@ -28,5 +24,6 @@ public class ManifestApp {
         
         CreateManifestService createManifestService = new CreateManifestService(metadataConnection, periodStart, periodEnd);
         createManifestService.getlastModifiedComponents();
+        
     }
 }

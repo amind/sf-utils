@@ -116,6 +116,10 @@ public class FXMLController implements Initializable {
                 throw new RuntimeException("No file was selected.");
             }else{
                 packageFilePathTextFieldControl.setText(selectedDirectory.getAbsolutePath());
+                
+                statusTextAreaControl.setText("Success!");
+                statusTextAreaControl.setStyle(greenStyle);
+                
             }
         }catch(Exception ex){
             Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
