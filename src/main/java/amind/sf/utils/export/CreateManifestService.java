@@ -21,10 +21,28 @@ public class CreateManifestService {
         this.metadataConnection = metadataConnection;
     }
 
-    public void getlastModifiedComponents() throws FileNotFoundException {
+    public void getlastModifiedComponents(List<String> componentTypesList) throws FileNotFoundException {
 
-        Map<String, List<FileProperties>> lastModifiedFields = getLastModifiedData();
+        if(componentTypesList==null){
+            componentTypesList = Arrays.asList("CustomField", "ApexClass", "ApexTrigger", "ApexPage",
+                "CustomLabels", "StaticResource", "Layout", "WorkflowRule", "WorkflowOutboundMessage", "WorkflowFieldUpdate", 
+                "CustomObject", "Report", "ReportType", "StandardValueSet", "Profile", "StandardValueSetTranslation", "CustomObjectTranslation",
+                "RemoteSiteSetting", "SamlSsoConfig", "ConnectedApp", "Document", "Folder", "GlobalValueSet");
+        }
+        
+        Map<String, List<FileProperties>> lastModifiedFields = getLastModifiedData(componentTypesList);
 
+        // fix incorrect layout names
+        lastModifiedFields.entrySet().stream().filter((entry) -> (entry.getKey().equals("Layout"))).forEachOrdered((entry) -> {
+            entry.getValue().forEach(c -> {
+                String apiName = c.getFullName().split("-")[0];
+                String label = c.getFullName().split("-")[1];
+                if(c.getManageableState()==ManageableState.installed){//apiName.endsWith("__c")){
+                    //c.setFullName(apiName+"-"+apiName.substring(0, apiName.length() - 3)+" Layout");
+                    c.setFullName(apiName+"-"+(c.getNamespacePrefix()==null?"":c.getNamespacePrefix()+"__")+label);
+                }
+            });
+        });
 
         XMLFileBuilder xmlFileBuilder = new XMLFileBuilder();
         xmlFileBuilder.createPackageXml(lastModifiedFields);
@@ -75,12 +93,10 @@ public class CreateManifestService {
         }
     }
 
-    private Map<String, List<FileProperties>> getLastModifiedData() {
-        List<String> list = Arrays.asList("CustomField", "ApexClass", "ApexTrigger", "ApexPage",
-                "CustomLabels", "StaticResource", "Layout", "WorkflowRule", "WorkflowOutboundMessage", "WorkflowFieldUpdate", "CustomObject", "Report", "ReportType", "StandardValueSet");
-
+    private Map<String, List<FileProperties>> getLastModifiedData(List<String> componentTypes) {
+        
         List<FileProperties> properties = new ArrayList<>();
-        list.forEach(component->properties.addAll(getLastModifiedMetadata(component)));
+        componentTypes.forEach(component->properties.addAll(getLastModifiedMetadata(component)));
 
         filterProperites(properties);
 
@@ -203,23 +219,37 @@ public class CreateManifestService {
 
     private void filterProperites(List<FileProperties> properties) {
         properties.sort(Comparator.comparing(a -> a.getFullName()));
-
-        properties.removeIf(p-> p.getType().equals("ApexPage") && p.getFullName().equals("APTS_Main"));
+        
+        // remove stuff by name pattern
+        /*properties.removeIf(p -> p.getFullName().contains("agf__"));
+        properties.removeIf(p -> p.getFullName().contains("CoveoV2__"));
+        properties.removeIf(p -> p.getFullName().contains("CRMC_PP__"));
+        properties.removeIf(p -> p.getFullName().contains("MyHBT"));
+        properties.removeIf(p -> p.getFullName().contains("myHBT"));
+        properties.removeIf(p -> p.getFullName().contains("KCS_"));
+        
+        // remove stuff by last modified by
+        properties.removeIf(p -> p.getLastModifiedByName().equals("Susheel Bist"));
+        properties.removeIf(p -> p.getLastModifiedByName().equals("Shivani Sbrol"));
+        properties.removeIf(p -> p.getLastModifiedByName().equals("conga conga"));
+        properties.removeIf(p -> p.getLastModifiedByName().equals("Dale Pepin"));*/
+        
+        /*properties.removeIf(p-> p.getType().equals("ApexPage") && p.getFullName().equals("APTS_Main"));
         properties.removeIf(p-> p.getType().equals("ApexPage") && p.getFullName().equals("GT_PAYMENT_FRAME"));
         properties.removeIf(p-> p.getType().equals("CustomObject") && p.getFullName().equals("APTS_B2C_Community_Settings__c"));
         properties.removeIf(p-> p.getType().equals("CustomObject") && p.getFullName().equals("FOL__c"));
-        properties.removeIf(p-> p.getType().equals("Workflow") && p.getFullName().equals("FOL__c"));
-        properties.removeIf(p->p.getType().equals("CustomField") && p.getManageableState().equals("installed"));
+        properties.removeIf(p-> p.getType().equals("Workflow") && p.getFullName().equals("FOL__c"));*/
+        //properties.removeIf(p->p.getType().equals("CustomField") && p.getManageableState().equals("installed"));
 
-        properties.removeIf(p->p.getType().equals("CustomField") && p.getLastModifiedByName().equals("Susheel Bist"));
+        /*properties.removeIf(p->p.getType().equals("CustomField") && p.getLastModifiedByName().equals("Susheel Bist"));
         properties.removeIf(p->p.getType().equals("CustomField") && p.getLastModifiedByName().equals("Shivani Sbrol"));
         properties.removeIf(p->p.getType().equals("ApexClass") && p.getLastModifiedByName().equals("Susheel Bist"));
         properties.removeIf(p->p.getType().equals("CustomObject") && p.getLastModifiedByName().equals("Susheel Bist"));
         properties.removeIf(p->p.getType().equals("ApexPage") && p.getLastModifiedByName().equals("Susheel Bist"));
         properties.removeIf(p->p.getType().equals("Layout") && p.getLastModifiedByName().equals("Susheel Bist"));
-        properties.removeIf(p->p.getType().equals("Layout") && p.getLastModifiedByName().equals("Automated Process"));
+        properties.removeIf(p->p.getType().equals("Layout") && p.getLastModifiedByName().equals("Automated Process"));*/
 
-        properties.removeIf(p->p.getType().equals("CustomField") && p.getLastModifiedByName().equals("conga conga"));
+        /*properties.removeIf(p->p.getType().equals("CustomField") && p.getLastModifiedByName().equals("conga conga"));
         properties.removeIf(p->p.getType().equals("CustomField") && p.getLastModifiedByName().equals("Dale Pepin"));
         properties.removeIf(p->p.getType().equals("CustomObject") && p.getLastModifiedByName().equals("Dale Pepin"));
         properties.removeIf(p->p.getType().equals("CustomObject") && p.getLastModifiedByName().equals("conga conga"));
@@ -227,11 +257,13 @@ public class CreateManifestService {
         properties.removeIf(p->p.getType().equals("Layout") && p.getLastModifiedByName().equals("conga conga"));
         properties.removeIf(p->p.getType().equals("ApexClass") && p.getLastModifiedByName().equals("conga conga"));
         properties.removeIf(p->p.getType().equals("StaticResource") && p.getLastModifiedByName().equals("conga conga"));
-        properties.removeIf(p->p.getType().equals("StaticResource") && p.getLastModifiedByName().equals("Susheel Bist"));
-        properties.removeIf(p->p.getType().equals("ApexTrigger") && p.getLastModifiedByName().equals("conga conga"));
-        properties.removeIf(p->p.getType().equals("ApexTrigger") && p.getLastModifiedByName().equals("Susheel Bist"));
+        properties.removeIf(p->p.getType().equals("ApexTrigger") && p.getLastModifiedByName().equals("conga conga"));*/
+        
+        //properties.removeIf(p->p.getType().equals("StaticResource") && p.getLastModifiedByName().equals("Susheel Bist"));
+        
+        //properties.removeIf(p->p.getType().equals("ApexTrigger") && p.getLastModifiedByName().equals("Susheel Bist"));
 
-        properties.removeIf(p->p.getType().equals("Profile") && !p.getFullName().equals("HBT RR Partner Community Login User"));
+        //properties.removeIf(p->p.getType().equals("Profile") && !p.getFullName().equals("HBT RR Partner Community Login User"));
     }
 
     private void modifyCustomField(Component component){
@@ -396,15 +428,18 @@ public class CreateManifestService {
                     System.out.println("Empty metadata.");
                 }
             }
-        } catch (ConnectionException ce) {
-            ce.printStackTrace();
-        }
-
-        components.forEach(c->setCustomFieldComponentData(c, customFields.stream()
+            
+            components.forEach(c->setCustomFieldComponentData(c, customFields.stream()
                         .filter(cf->cf.getFullName().equals(c.getApiName()))
                         .findFirst()
                         .get()));
-
+            
+        } catch (ConnectionException ce) {
+            ce.printStackTrace();
+        }
+            
+            
+            
     }
 
     private void setCustomFieldComponentData(Component component, CustomField customField){
