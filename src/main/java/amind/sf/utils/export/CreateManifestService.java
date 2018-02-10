@@ -220,6 +220,8 @@ public class CreateManifestService {
     private void filterProperites(List<FileProperties> properties) {
         properties.sort(Comparator.comparing(a -> a.getFullName()));
         
+        properties.removeIf(p->p.getType().equals("CustomField") && p.getManageableState().equals("installed"));
+        
         // remove stuff by name pattern
         /*properties.removeIf(p -> p.getFullName().contains("agf__"));
         properties.removeIf(p -> p.getFullName().contains("CoveoV2__"));
@@ -239,7 +241,6 @@ public class CreateManifestService {
         properties.removeIf(p-> p.getType().equals("CustomObject") && p.getFullName().equals("APTS_B2C_Community_Settings__c"));
         properties.removeIf(p-> p.getType().equals("CustomObject") && p.getFullName().equals("FOL__c"));
         properties.removeIf(p-> p.getType().equals("Workflow") && p.getFullName().equals("FOL__c"));*/
-        //properties.removeIf(p->p.getType().equals("CustomField") && p.getManageableState().equals("installed"));
 
         /*properties.removeIf(p->p.getType().equals("CustomField") && p.getLastModifiedByName().equals("Susheel Bist"));
         properties.removeIf(p->p.getType().equals("CustomField") && p.getLastModifiedByName().equals("Shivani Sbrol"));
