@@ -5,9 +5,11 @@ import amind.sf.utils.export.CreateManifestService;
 import amind.sf.utils.export.MetadataLoginUtil;
 import amind.sf.utils.export.RetrieveSample;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +18,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -35,6 +36,9 @@ public class FXMLController implements Initializable {
     private TextArea statusTextAreaControl;
     
     @FXML
+    private TextArea objectTypesTextAreaControl;
+    
+    @FXML
     private TextField sfUsernameTextFieldControl;
     
     @FXML
@@ -48,6 +52,18 @@ public class FXMLController implements Initializable {
     
     private final String redStyle = "-fx-highlight-fill: #ff0000; -fx-highlight-text-fill: #000000; -fx-text-fill: #ff0000; ";
     private final String greenStyle = "-fx-highlight-fill: #00ff00; -fx-highlight-text-fill: #000000; -fx-text-fill: #00ff00; ";
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+        objectTypesTextAreaControl.setText("ApexClass, ApexTrigger, ApexPage, \n CustomObject, CustomField, CustomLabels, \n StaticResource, Layout, WorkflowRule, WorkflowOutboundMessage, WorkflowFieldUpdate, Report, ReportType, StandardValueSet, Profile, StandardValueSetTranslation, CustomObjectTranslation, RemoteSiteSetting, SamlSsoConfig, ConnectedApp, Document, Folder, GlobalValueSet");
+        objectTypesTextAreaControl.setText("Layout");
+        sfUsernameTextFieldControl.setText("artem.nakhapetiani@amindsolutions.com");
+        sfPasswordPasswordFieldControl.setText("");
+        sfSecurityTokenTextFieldControl.setText("0NdPumPeRinbgUHltCaJnYcOv");
+        fromDatePickerControl.setValue(LocalDate.now().minusYears(1));
+        tillDatePickerControl.setValue(LocalDate.now());
+    }  
     
     private void checkLoginFields(){
         if(sfUsernameTextFieldControl.getText().trim().equalsIgnoreCase("")){
@@ -85,7 +101,10 @@ public class FXMLController implements Initializable {
                                                                         sfPasswordPasswordFieldControl.getText()+sfSecurityTokenTextFieldControl.getText()
                                                                     );
             CreateManifestService createManifestService = new CreateManifestService(metadataConnection, periodStart, periodEnd);
-            createManifestService.getlastModifiedComponents();
+            
+            List<String> typesList = Arrays.asList(objectTypesTextAreaControl.getText().replace(" ", "").replace("\n", "").split(","));
+            
+            createManifestService.getlastModifiedComponents(typesList);
             
             statusTextAreaControl.setText("Success!");
             statusTextAreaControl.setStyle(greenStyle);
@@ -116,10 +135,6 @@ public class FXMLController implements Initializable {
                 throw new RuntimeException("No file was selected.");
             }else{
                 packageFilePathTextFieldControl.setText(selectedDirectory.getAbsolutePath());
-                
-                statusTextAreaControl.setText("Success!");
-                statusTextAreaControl.setStyle(greenStyle);
-                
             }
         }catch(Exception ex){
             Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
@@ -151,6 +166,9 @@ public class FXMLController implements Initializable {
                                         );
             sample.retrieveZip();
             
+            statusTextAreaControl.setText("Success!");
+            statusTextAreaControl.setStyle(greenStyle);
+            
         }catch(Exception ex){
             Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
             statusTextAreaControl.setText("Error occured: "+(ex==null?" undefined error.": ex.getMessage()));
@@ -160,8 +178,4 @@ public class FXMLController implements Initializable {
         
     }
     
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
 }
