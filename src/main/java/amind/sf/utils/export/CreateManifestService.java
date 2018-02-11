@@ -220,6 +220,29 @@ public class CreateManifestService {
     private void filterProperites(List<FileProperties> properties) {
         properties.sort(Comparator.comparing(a -> a.getFullName()));
         
+        
+        /*
+        // remove stuff for exporting HBTRR stuff and merging into DEVPRO org
+        properties.removeIf(p -> p.getLastModifiedByName().equals("Susheel Bist"));
+        properties.removeIf(p -> p.getLastModifiedByName().equals("Shivani Sbrol"));
+        properties.removeIf(p -> p.getLastModifiedByName().equals("conga conga"));
+        properties.removeIf(p -> p.getLastModifiedByName().equals("Dale Pepin"));
+        properties.removeIf(p -> p.getLastModifiedByName().equals("Martin Renaud"));
+        properties.removeIf(p -> p.getLastModifiedByName().equals("Shiyam Sundar"));
+        properties.removeIf(p -> p.getLastModifiedByName().equals("muthu kumaran"));
+        properties.removeIf(p -> p.getLastModifiedByName().equals("Shiyam Sundar"));
+        properties.removeIf(p -> p.getLastModifiedByName().equals("Vinay Karajagi"));
+        
+        properties.removeIf(p-> p.getType().equals("ApexPage") && p.getFullName().equals("APTS_Main"));
+        
+        properties.removeIf(p-> p.getType().equals("Profile") && (!p.getFullName().equals("Admin") && !p.getFullName().equals("HBT RR Partner Community Login User") && !p.getFullName().equals("HBTRR Mulesoft Api")));
+        */
+        
+        
+        
+        
+        
+        
         //properties.removeIf(p->p.getType().equals("CustomField") && p.getManageableState().equals(ManageableState.installed));
         
         // remove stuff by name pattern
@@ -228,13 +251,7 @@ public class CreateManifestService {
         properties.removeIf(p -> p.getFullName().contains("CRMC_PP__"));
         properties.removeIf(p -> p.getFullName().contains("MyHBT"));
         properties.removeIf(p -> p.getFullName().contains("myHBT"));
-        properties.removeIf(p -> p.getFullName().contains("KCS_"));
-        
-        // remove stuff by last modified by
-        properties.removeIf(p -> p.getLastModifiedByName().equals("Susheel Bist"));
-        properties.removeIf(p -> p.getLastModifiedByName().equals("Shivani Sbrol"));
-        properties.removeIf(p -> p.getLastModifiedByName().equals("conga conga"));
-        properties.removeIf(p -> p.getLastModifiedByName().equals("Dale Pepin"));*/
+        properties.removeIf(p -> p.getFullName().contains("KCS_"));*/
         
         /*properties.removeIf(p-> p.getType().equals("ApexPage") && p.getFullName().equals("APTS_Main"));
         properties.removeIf(p-> p.getType().equals("ApexPage") && p.getFullName().equals("GT_PAYMENT_FRAME"));
