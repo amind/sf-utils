@@ -220,7 +220,7 @@ public class CreateManifestService {
     private void filterProperites(List<FileProperties> properties) {
         properties.sort(Comparator.comparing(a -> a.getFullName()));
         
-        properties.removeIf(p->p.getType().equals("CustomField") && p.getManageableState().equals("installed"));
+        //properties.removeIf(p->p.getType().equals("CustomField") && p.getManageableState().equals(ManageableState.installed));
         
         // remove stuff by name pattern
         /*properties.removeIf(p -> p.getFullName().contains("agf__"));
@@ -430,10 +430,21 @@ public class CreateManifestService {
                 }
             }
             
-            components.forEach(c->setCustomFieldComponentData(c, customFields.stream()
+            components.forEach(c->{
+                
+                CustomField customField = null;
+                try{
+                customField = customFields.stream()
                         .filter(cf->cf.getFullName().equals(c.getApiName()))
                         .findFirst()
-                        .get()));
+                        .get();
+                }catch(Exception exp){}
+                
+                if(customField!=null){
+                    setCustomFieldComponentData(c, customField);
+                }
+                
+            });
             
         } catch (ConnectionException ce) {
             ce.printStackTrace();
@@ -444,8 +455,8 @@ public class CreateManifestService {
     }
 
     private void setCustomFieldComponentData(Component component, CustomField customField){
-        component.setLabel(customField.getLabel());
-        component.setDescription(customField.getDescription());
+        component.setLabel(customField.getLabel()==null?"":customField.getLabel());
+        component.setDescription(customField.getDescription()==null?"":customField.getDescription());
     }
 
     public List<FileProperties> getLastModifiedMetadata(String type) {
