@@ -57,6 +57,7 @@ public class FXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         objectTypesTextAreaControl.setText("ApexClass, ApexTrigger, ApexPage, \n CustomObject, CustomField, CustomLabel, \n StaticResource, Layout, WorkflowRule, WorkflowOutboundMessage, WorkflowFieldUpdate, Report, ReportType, StandardValueSet, Profile, \n Translations, StandardValueSetTranslation, CustomObjectTranslation, GlobalValueSetTranslation, \n RemoteSiteSetting, SamlSsoConfig, ConnectedApp, Document, GlobalValueSet");
+
         //objectTypesTextAreaControl.setText("Layout");
         //sfUsernameTextFieldControl.setText("artem.nakhapetiani@amindsolutions.com");
         sfPasswordPasswordFieldControl.setText("");
