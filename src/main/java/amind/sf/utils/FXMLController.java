@@ -59,9 +59,9 @@ public class FXMLController implements Initializable {
         objectTypesTextAreaControl.setText("ApexClass, ApexTrigger, ApexPage, \n CustomObject, CustomField, CustomLabel, \n StaticResource, Layout, WorkflowRule, WorkflowOutboundMessage, WorkflowFieldUpdate, Report, ReportType, StandardValueSet, Profile, \n Translations, StandardValueSetTranslation, CustomObjectTranslation, GlobalValueSetTranslation, \n RemoteSiteSetting, SamlSsoConfig, ConnectedApp, Document, GlobalValueSet");
 
         //objectTypesTextAreaControl.setText("Layout");
-        //sfUsernameTextFieldControl.setText("artem.nakhapetiani@amindsolutions.com");
+        sfUsernameTextFieldControl.setText("artem.nakhapetiani@amindsolutions.com");
         sfPasswordPasswordFieldControl.setText("");
-        //sfSecurityTokenTextFieldControl.setText("0NdPumPeRinbgUHltCaJnYcOv");
+        sfSecurityTokenTextFieldControl.setText("0NdPumPeRinbgUHltCaJnYcOv");
         fromDatePickerControl.setValue(LocalDate.now().minusYears(1));
         tillDatePickerControl.setValue(LocalDate.now());
     }  

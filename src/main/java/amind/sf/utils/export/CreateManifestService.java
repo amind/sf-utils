@@ -47,7 +47,7 @@ public class CreateManifestService {
         XMLFileBuilder xmlFileBuilder = new XMLFileBuilder();
         xmlFileBuilder.createPackageXml(lastModifiedFields);
 
-        Map<String, List<Component>> mapOfComponent = new HashMap<>();
+        /*Map<String, List<Component>> mapOfComponent = new HashMap<>();
 
         for(Map.Entry<String, List<FileProperties>> entry: lastModifiedFields.entrySet()){
             List<Component> components = entry.getValue().stream()
@@ -90,7 +90,7 @@ public class CreateManifestService {
             
             createCSVData(mapOfComponent, sb);
             pw.write(sb.toString());
-        }
+        }*/
     }
 
     private Map<String, List<FileProperties>> getLastModifiedData(List<String> componentTypes) {
@@ -221,7 +221,10 @@ public class CreateManifestService {
         properties.sort(Comparator.comparing(a -> a.getFullName()));
         
         
-        /*
+        
+        properties.removeIf(p-> p.getType().equals("CustomObject") && p.getCreatedByName().equals("Susheel Bist"));
+        
+        
         // remove stuff for exporting HBTRR stuff and merging into DEVPRO org
         properties.removeIf(p -> p.getLastModifiedByName().equals("Susheel Bist"));
         properties.removeIf(p -> p.getLastModifiedByName().equals("Shivani Sbrol"));
@@ -236,7 +239,7 @@ public class CreateManifestService {
         properties.removeIf(p-> p.getType().equals("ApexPage") && p.getFullName().equals("APTS_Main"));
         
         properties.removeIf(p-> p.getType().equals("Profile") && (!p.getFullName().equals("Admin") && !p.getFullName().equals("HBT RR Partner Community Login User") && !p.getFullName().equals("HBTRR Mulesoft Api")));
-        */
+        
         
         
         
