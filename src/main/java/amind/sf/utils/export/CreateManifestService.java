@@ -222,7 +222,7 @@ public class CreateManifestService {
         
         
         
-        properties.removeIf(p-> p.getType().equals("CustomObject") && p.getCreatedByName().equals("Susheel Bist"));
+        /*properties.removeIf(p-> p.getType().equals("CustomObject") && p.getCreatedByName().equals("Susheel Bist"));
         
         
         // remove stuff for exporting HBTRR stuff and merging into DEVPRO org
@@ -230,7 +230,7 @@ public class CreateManifestService {
         properties.removeIf(p -> p.getLastModifiedByName().equals("Shivani Sbrol"));
         properties.removeIf(p -> p.getLastModifiedByName().equals("conga conga"));
         properties.removeIf(p -> p.getLastModifiedByName().equals("Dale Pepin"));
-        properties.removeIf(p -> p.getLastModifiedByName().equals("Martin Renaud"));
+        //properties.removeIf(p -> p.getLastModifiedByName().equals("Martin Renaud"));
         properties.removeIf(p -> p.getLastModifiedByName().equals("Shiyam Sundar"));
         properties.removeIf(p -> p.getLastModifiedByName().equals("muthu kumaran"));
         properties.removeIf(p -> p.getLastModifiedByName().equals("Shiyam Sundar"));
@@ -239,7 +239,7 @@ public class CreateManifestService {
         properties.removeIf(p-> p.getType().equals("ApexPage") && p.getFullName().equals("APTS_Main"));
         
         properties.removeIf(p-> p.getType().equals("Profile") && (!p.getFullName().equals("Admin") && !p.getFullName().equals("HBT RR Partner Community Login User") && !p.getFullName().equals("HBTRR Mulesoft Api")));
-        
+        */
         
         
         
