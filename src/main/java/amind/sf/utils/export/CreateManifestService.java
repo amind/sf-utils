@@ -221,6 +221,10 @@ public class CreateManifestService {
         properties.sort(Comparator.comparing(a -> a.getFullName()));
         
         
+        properties.removeIf(p-> p.getType().equals("CustomObject") && p.getManageableState()!=null && p.getManageableState().equals(ManageableState.installed));
+        
+        
+        
         
         /*properties.removeIf(p-> p.getType().equals("CustomObject") && p.getCreatedByName().equals("Susheel Bist"));
         

@@ -56,12 +56,12 @@ public class FXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        objectTypesTextAreaControl.setText("ApexClass, ApexTrigger, ApexPage, \n CustomObject, CustomField, CustomLabel, WebLink, \n StaticResource, Layout, WorkflowRule, WorkflowOutboundMessage, WorkflowFieldUpdate, Report, ReportType, StandardValueSet, Profile, \n Translations, StandardValueSetTranslation, CustomObjectTranslation, GlobalValueSetTranslation, \n RemoteSiteSetting, SamlSsoConfig, ConnectedApp, Document, GlobalValueSet");
+        objectTypesTextAreaControl.setText("ApexClass, ApexTrigger, ApexPage, \n CustomObject, CustomField, CustomLabel, WebLink, \n StaticResource, Layout, WorkflowRule, WorkflowOutboundMessage, WorkflowFieldUpdate, Report, ReportType, PermissionSet, StandardValueSet, Profile, \n Translations, StandardValueSetTranslation, CustomObjectTranslation, GlobalValueSetTranslation, \n RemoteSiteSetting, SamlSsoConfig, ConnectedApp, Document, GlobalValueSet");
 
         //objectTypesTextAreaControl.setText("Layout");
-        sfUsernameTextFieldControl.setText("artem.nakhapetiani@amindsolutions.com");
+        sfUsernameTextFieldControl.setText("artem.nakhapetiani@amindsolutions.com.hbt.hbtprocpq");
         sfPasswordPasswordFieldControl.setText("");
-        sfSecurityTokenTextFieldControl.setText("0NdPumPeRinbgUHltCaJnYcOv");
+        sfSecurityTokenTextFieldControl.setText("8LZsL11wya9Np01OXgRtgjp9");
         fromDatePickerControl.setValue(LocalDate.now().minusYears(1));
         tillDatePickerControl.setValue(LocalDate.now());
     }  
