@@ -226,6 +226,15 @@ public class CreateManifestService {
 
         //properties.removeIf(p->p.getManageableState().equals(ManageableState.installed));
         //properties.removeIf(p -> p.getLastModifiedByName().equals("Susheel Bist"));
+        //properties.removeIf(p-> p.getType().equals("CustomObject") && p.getManageableState()!=null && p.getManageableState().equals(ManageableState.installed));
+        
+        
+        
+        
+        /*properties.removeIf(p-> p.getType().equals("CustomObject") && p.getCreatedByName().equals("Susheel Bist"));
+        
+        
+>>>>>>> origin/master
         // remove stuff for exporting HBTRR stuff and merging into DEVPRO org
         //properties.removeIf(p-> p.getType().equals("CustomObject") && p.getCreatedByName().equals("Susheel Bist"));
         //properties.removeIf(p -> !p.getLastModifiedByName().equals("yury iagutyan"));
