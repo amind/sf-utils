@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
@@ -50,18 +51,21 @@ public class FXMLController implements Initializable {
     @FXML
     private TextField packageFilePathTextFieldControl;
     
+    @FXML
+    private CheckBox generateManifestCsv;
+    
     private final String redStyle = "-fx-highlight-fill: #ff0000; -fx-highlight-text-fill: #000000; -fx-text-fill: #ff0000; ";
     private final String greenStyle = "-fx-highlight-fill: #00ff00; -fx-highlight-text-fill: #000000; -fx-text-fill: #00ff00; ";
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        objectTypesTextAreaControl.setText("ApexClass, ApexTrigger, ApexPage, \n CustomObject, CustomField, CustomLabel, WebLink, \n StaticResource, Layout, WorkflowRule, WorkflowOutboundMessage, WorkflowFieldUpdate, Report, ReportType, StandardValueSet, Profile, \n Translations, StandardValueSetTranslation, CustomObjectTranslation, GlobalValueSetTranslation, \n RemoteSiteSetting, SamlSsoConfig, ConnectedApp, Document, GlobalValueSet");
+        objectTypesTextAreaControl.setText("ApexClass, ApexTrigger, ApexPage, AuraDefinitionBundle, \n CustomObject, CustomField, CustomLabel, WebLink, \n StaticResource, Layout, WorkflowRule, WorkflowOutboundMessage, WorkflowFieldUpdate, Report, ReportType, StandardValueSet, Profile, PermissionSet, \n Translations, StandardValueSetTranslation, CustomObjectTranslation, GlobalValueSetTranslation, \n RemoteSiteSetting, SamlSsoConfig, ConnectedApp, Document, GlobalValueSet, SamlSsoConfig");
 
         //objectTypesTextAreaControl.setText("Layout");
-        sfUsernameTextFieldControl.setText("artem.nakhapetiani@amindsolutions.com");
+        sfUsernameTextFieldControl.setText("artem.nakhapetiani@amindsolutions.com.hbt.hbtprocpq");
         sfPasswordPasswordFieldControl.setText("");
-        sfSecurityTokenTextFieldControl.setText("0NdPumPeRinbgUHltCaJnYcOv");
+        sfSecurityTokenTextFieldControl.setText("8LZsL11wya9Np01OXgRtgjp9");
         fromDatePickerControl.setValue(LocalDate.now().minusYears(1));
         tillDatePickerControl.setValue(LocalDate.now());
     }  
@@ -75,9 +79,9 @@ public class FXMLController implements Initializable {
             throw new RuntimeException("Please enter SF password.");
         }
 
-        if(sfSecurityTokenTextFieldControl.getText().trim().equalsIgnoreCase("")){
+        /*if(sfSecurityTokenTextFieldControl.getText().trim().equalsIgnoreCase("")){
             throw new RuntimeException("Please enter SF security token.");
-        }
+        }*/
     }
     
     @FXML
@@ -105,7 +109,7 @@ public class FXMLController implements Initializable {
             
             List<String> typesList = Arrays.asList(objectTypesTextAreaControl.getText().replace(" ", "").replace("\n", "").split(","));
             
-            createManifestService.getlastModifiedComponents(typesList);
+            createManifestService.getlastModifiedComponents(typesList, generateManifestCsv.isSelected());
             
             statusTextAreaControl.setText("Success!");
             statusTextAreaControl.setStyle(greenStyle);
