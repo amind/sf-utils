@@ -2,7 +2,6 @@ package amind.sf.utils;
 
 import amind.sf.utils.export.CreateManifestService;
 import amind.sf.utils.export.ManifestApp;
-import amind.sf.utils.export.MetadataLoginUtil;
 import com.sforce.soap.metadata.FileProperties;
 import com.sforce.soap.metadata.MetadataConnection;
 import com.sforce.ws.ConnectionException;
