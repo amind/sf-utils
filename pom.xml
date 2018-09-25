@@ -126,9 +126,10 @@
         </dependency>
         <!-- utils -->
         <dependency>
-            <groupId>net.lingala.zip4j</groupId>
-            <artifactId>zip4j</artifactId>
-            <version>1.3.2</version>
+            <groupId>org.zeroturnaround</groupId>
+            <artifactId>zt-zip</artifactId>
+            <version>1.13</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 </project>

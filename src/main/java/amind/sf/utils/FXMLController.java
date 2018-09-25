@@ -3,7 +3,6 @@ package amind.sf.utils;
 import com.sforce.soap.metadata.MetadataConnection;
 import amind.sf.utils.export.CreateManifestService;
 import amind.sf.utils.export.RetrieveSample;
-import amind.sf.utils.statics.Zip4JUtils;
 import com.sforce.soap.enterprise.fault.LoginFault;
 import com.sforce.soap.metadata.Metadata;
 import com.sforce.soap.metadata.SaveResult;
@@ -19,6 +18,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
@@ -34,6 +34,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import org.zeroturnaround.zip.ZipUtil;
 
 public class FXMLController implements Initializable {
 
@@ -264,7 +265,16 @@ public class FXMLController implements Initializable {
                     sfLoginUrlControl.getValue().toString()
             );
 
-            staticsZip = Zip4JUtils.compress(staticsFolderPathTextFieldControl.getText());
+            //staticsZip = Zip4JUtils.compress(staticsFolderPathTextFieldControl.getText());
+            String tmpFileDir = System.getProperty("java.io.tmpdir");
+
+            UUID uuid = UUID.randomUUID();
+            String randomUUIDString = uuid.toString();
+
+            String tmpFileName = tmpFileDir + "/tmpf" + randomUUIDString + ".zip";
+            staticsZip = new File(tmpFileName);
+            
+            ZipUtil.pack(new File(staticsFolderPathTextFieldControl.getText()), staticsZip);
 
             StaticResource statics = new StaticResource();
             statics.setFullName(staticsNameTextFieldControl.getText());
