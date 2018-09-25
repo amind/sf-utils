@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.paint.*?>
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -12,13 +8,13 @@
     <children>
       <Label layoutX="52.0" layoutY="443.0" text="Status:" />
       <TextArea fx:id="statusTextAreaControl" layoutX="106.0" layoutY="443.0" prefHeight="140.0" prefWidth="841.0" />
-      <TextField fx:id="sfUsernameTextFieldControl" layoutX="120.0" layoutY="43.0" prefHeight="26.0" prefWidth="198.0" promptText="SF Username..." />
-      <PasswordField fx:id="sfPasswordPasswordFieldControl" layoutX="432.0" layoutY="43.0" prefHeight="31.0" prefWidth="178.0" promptText="SF Password..." />
-      <Label layoutX="20.0" layoutY="48.0" prefHeight="16.0" prefWidth="91.0" text="SF Username:" />
-      <Label layoutX="336.0" layoutY="48.0" text="SF Password:" />
-      <Label layoutX="440.0" layoutY="14.0" text="Salesforce Login:" textFill="BLUE" />
-      <TextField fx:id="sfSecurityTokenTextFieldControl" layoutX="759.0" layoutY="43.0" prefHeight="31.0" prefWidth="198.0" promptText="SF Security Token" />
-      <Label layoutX="626.0" layoutY="48.0" text="SF Security Token:" />
+      <TextField fx:id="sfUsernameTextFieldControl" layoutX="145.0" layoutY="43.0" prefHeight="26.0" prefWidth="198.0" promptText="SF Username..." />
+      <PasswordField fx:id="sfPasswordPasswordFieldControl" layoutX="356.0" layoutY="41.0" prefHeight="31.0" prefWidth="178.0" promptText="SF Password..." />
+      <Label layoutX="145.0" layoutY="14.0" prefHeight="16.0" prefWidth="91.0" text="SF Username:" />
+      <Label layoutX="356.0" layoutY="14.0" text="SF Password:" />
+      <Label layoutX="21.0" layoutY="14.0" text="Salesforce Login:" textFill="BLUE" />
+      <TextField fx:id="sfSecurityTokenTextFieldControl" layoutX="553.0" layoutY="41.0" prefHeight="31.0" prefWidth="198.0" promptText="SF Security Token" />
+      <Label layoutX="553.0" layoutY="14.0" text="SF Security Token:" />
       <TabPane layoutX="13.0" layoutY="83.0" prefHeight="353.0" prefWidth="944.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Export Metadata Manifest/Package.xml">
@@ -68,6 +64,8 @@
             </Tab>
         </tabs>
       </TabPane>
+      <Label layoutX="768.0" layoutY="14.0" text="Login Url" />
+      <ComboBox fx:id="sfLoginUrlControl" layoutX="768.0" layoutY="43.0" prefWidth="150.0" />
       
     </children>
 </AnchorPane>

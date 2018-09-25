@@ -22,7 +22,7 @@ public class ManifestApp {
 
         MetadataConnection metadataConnection;
         try {
-            metadataConnection = MetadataLoginUtil.login(username, password);
+            metadataConnection = MetadataLoginUtil.login(username, password, null);
 
             Calendar periodStart = Calendar.getInstance();
             periodStart.set(2017, 1, 1);

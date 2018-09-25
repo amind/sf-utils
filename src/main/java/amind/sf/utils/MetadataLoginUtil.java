@@ -13,9 +13,10 @@ import com.sforce.ws.ConnectorConfig;
  */
 public class MetadataLoginUtil {
 
-    public static MetadataConnection login(String username, String password) throws ConnectionException {
+    public static MetadataConnection login(String username, String password, String loginUrl) throws ConnectionException {
         try {
-            final String URL = "https://test.salesforce.com/services/Soap/c/41.0";
+            final String URL = loginUrl==null? "https://test.salesforce.com/services/Soap/c/41.0": 
+                    "https://"+loginUrl+"/services/Soap/c/41.0";
             final LoginResult loginResult = loginToSalesforce(username, password, URL);
             return createMetadataConnection(loginResult);
         } catch (LoginFault exp) {
