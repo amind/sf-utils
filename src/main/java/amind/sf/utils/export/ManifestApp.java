@@ -15,20 +15,21 @@ public class ManifestApp {
 
     private static final int MegaBytes = 10241024;
 
-    public static void main__(String[] args) {
+    public static void test() {
 
-        final String username = "username";
-        final String password = "password";
+        final String username = "artem.nakhapetiani@amindsolutions.aminddemosb.com";
+        final String password = "";
+        final String token = "";
 
         MetadataConnection metadataConnection;
         try {
-            metadataConnection = MetadataLoginUtil.login(username, password, null);
+            metadataConnection = MetadataLoginUtil.login(username, password+token, null);
 
             Calendar periodStart = Calendar.getInstance();
             periodStart.set(2017, 1, 1);
 
             Calendar periodEnd = Calendar.getInstance();
-            periodEnd.set(2018, 2, 10);
+            periodEnd.set(2018, 11, 14);
 
             CreateManifestService createManifestService = new CreateManifestService(metadataConnection, periodStart, periodEnd);
             //createManifestService.getlastModifiedComponents();

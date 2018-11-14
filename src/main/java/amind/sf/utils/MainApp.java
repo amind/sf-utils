@@ -1,15 +1,7 @@
 package amind.sf.utils;
 
-import amind.sf.utils.export.CreateManifestService;
 import amind.sf.utils.export.ManifestApp;
-import com.sforce.soap.metadata.FileProperties;
-import com.sforce.soap.metadata.MetadataConnection;
-import com.sforce.ws.ConnectionException;
-import java.io.File;
-import java.util.Calendar;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.jar.Manifest;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;

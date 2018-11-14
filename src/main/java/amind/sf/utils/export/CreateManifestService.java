@@ -7,13 +7,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
+import jdk.nashorn.internal.ir.ContinueNode;
 
 public class CreateManifestService {
 
     Calendar periodStart;
     Calendar periodEnd;
     MetadataConnection metadataConnection;
+    
+    public static int SOAP_VERSION = 42;
 
     public CreateManifestService(MetadataConnection metadataConnection, Calendar periodStart, Calendar periodEnd) {
         this.periodStart = periodStart;
@@ -101,6 +105,7 @@ public class CreateManifestService {
     private Map<String, List<FileProperties>> getLastModifiedData(List<String> componentTypes) {
 
         List<FileProperties> properties = new ArrayList<>();
+        
         componentTypes.forEach(component -> properties.addAll(getLastModifiedMetadata(component)));
 
         filterProperites(properties);
@@ -491,15 +496,25 @@ public class CreateManifestService {
     public List<FileProperties> getLastModifiedMetadata(String type) {
         List<FileProperties> properties = new ArrayList<>();
         try {
-            ListMetadataQuery query = new ListMetadataQuery();
-            query.setType(type);
-
-            //query.setFolder(null);
-            double asOfVersion = 41.0;
-            // Assuming that the SOAP binding has already been established.
-            FileProperties[] lmr = metadataConnection.listMetadata(
-                    new ListMetadataQuery[]{query}, asOfVersion);
+            
+            FileProperties[] lmr = null;
+            switch(type){
+                case "EmailTemplate": {
+                    lmr = CreateSFPackageXMLUtils.getAllTemplatesList(metadataConnection);
+                    break;
+                }
+                default: {
+                    lmr = CreateSFPackageXMLUtils.getSFTypeMetadataList(type, metadataConnection);
+                    break;
+                }
+            }
+            
             if (lmr != null) {
+                
+                for(int i=0; i<lmr.length; i++){
+                    System.out.println(lmr[i].getFullName());
+                }
+                
                 if (type.equals("CustomObject")) {
                     properties = Arrays.stream(lmr)
                             .filter(field -> field.getLastModifiedDate().after(periodStart))
