@@ -60,7 +60,7 @@ public class FXMLController implements Initializable {
     private TextField sfSecurityTokenTextFieldControl;
     
     @FXML
-    private ComboBox sfLoginUrlControl;
+    private TextField sfLoginUrlControl;
 
     @FXML
     private TextField packageFilePathTextFieldControl;
@@ -83,11 +83,12 @@ public class FXMLController implements Initializable {
         fromDatePickerControl.setValue(LocalDate.now().minusYears(1));
         tillDatePickerControl.setValue(LocalDate.now());
         
-        sfLoginUrlControl.getItems().addAll(
+        /*sfLoginUrlControl.getItems().addAll(
             "test.salesforce.com",
-            "login.salesforce.com"  
-        );
-        sfLoginUrlControl.setValue("login.salesforce.com");
+            "login.salesforce.com",
+            "hon-aero--ngbss.my.salesforce.com"
+        );*/
+        sfLoginUrlControl.setText("login.salesforce.com");
     }
 
     private void checkLoginFields() {
@@ -124,7 +125,7 @@ public class FXMLController implements Initializable {
             MetadataConnection metadataConnection = MetadataLoginUtil.login(
                     sfUsernameTextFieldControl.getText(),
                     sfPasswordPasswordFieldControl.getText() + sfSecurityTokenTextFieldControl.getText(),
-                    sfLoginUrlControl.getValue().toString()
+                    sfLoginUrlControl.getText()
             );
             CreateManifestService createManifestService = new CreateManifestService(metadataConnection, periodStart, periodEnd);
 
@@ -183,7 +184,7 @@ public class FXMLController implements Initializable {
             MetadataConnection metadataConnection = MetadataLoginUtil.login(
                     sfUsernameTextFieldControl.getText(),
                     sfPasswordPasswordFieldControl.getText() + sfSecurityTokenTextFieldControl.getText(),
-                    sfLoginUrlControl.getValue().toString()
+                    sfLoginUrlControl.getText()
             );
 
             RetrieveSample sample = new RetrieveSample(
@@ -262,7 +263,7 @@ public class FXMLController implements Initializable {
             MetadataConnection metadataConnection = MetadataLoginUtil.login(
                     sfUsernameTextFieldControl.getText(),
                     sfPasswordPasswordFieldControl.getText() + sfSecurityTokenTextFieldControl.getText(),
-                    sfLoginUrlControl.getValue().toString()
+                    sfLoginUrlControl.getText()
             );
 
             //staticsZip = Zip4JUtils.compress(staticsFolderPathTextFieldControl.getText());

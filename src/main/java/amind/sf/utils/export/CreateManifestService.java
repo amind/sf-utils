@@ -228,6 +228,8 @@ public class CreateManifestService {
 
     private void filterProperites(List<FileProperties> properties) {
         properties.sort(Comparator.comparing(a -> a.getFullName()));
+        
+        properties.removeIf(p-> p.getLastModifiedDate().equals(p.getCreatedDate()) && p.getManageableState()!=null && p.getManageableState().equals(ManageableState.installed));
 
         //properties.removeIf(p->p.getManageableState().equals(ManageableState.installed));
         //properties.removeIf(p -> p.getLastModifiedByName().equals("Susheel Bist"));
